@@ -2,6 +2,11 @@ package com.mfrdev.countriesapp.di;
 
 import com.mfrdev.countriesapp.model.CountriesApi;
 import com.mfrdev.countriesapp.model.CountriesService;
+import com.mfrdev.countriesapp.model.ProfileApi;
+import com.mfrdev.countriesapp.model.ProfileService;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -12,16 +17,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiModule {
 
-    private static final String BASE_URL = "https://raw.githubusercontent.com";
-
+    @Singleton
     @Provides
-    public CountriesApi provideCountriesApi() {
-        return new Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-            .create(CountriesApi.class);
+    public CountriesApi provideCountriesApi(@Named("retrofit") Retrofit retrofit) {
+        return retrofit
+                .create(CountriesApi.class);
+    }
+
+    @Singleton
+    @Provides
+    public ProfileApi provideProfileApi(@Named("retrofit2") Retrofit retrofit) {
+        return retrofit
+                .create(ProfileApi.class);
     }
 
     @Provides
@@ -29,4 +36,9 @@ public class ApiModule {
         return CountriesService.getInstance();
     }
 
+
+    @Provides
+    public ProfileService provideProfileService() {
+        return ProfileService.getInstance();
+    }
 }

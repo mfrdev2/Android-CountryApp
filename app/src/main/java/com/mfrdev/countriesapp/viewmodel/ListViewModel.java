@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.mfrdev.countriesapp.di.DaggerApiComponent;
 import com.mfrdev.countriesapp.model.CountriesService;
 import com.mfrdev.countriesapp.model.CountryModel;
+import com.mfrdev.countriesapp.model.ProfileService;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class ListViewModel extends ViewModel {
 
     @Inject
     public CountriesService countriesService;
+    @Inject
+    public ProfileService profileService;
 
     private CompositeDisposable disposable = new CompositeDisposable();
 
@@ -39,7 +42,7 @@ public class ListViewModel extends ViewModel {
     private void fetchCountries() {
         loading.setValue(true);
         disposable.add(
-                countriesService.getCountries()
+                profileService.getCountries()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<List<CountryModel>>() {

@@ -1,14 +1,17 @@
 package com.mfrdev.countriesapp.di;
 
 import com.mfrdev.countriesapp.model.CountriesService;
+import com.mfrdev.countriesapp.model.ProfileService;
 import com.mfrdev.countriesapp.viewmodel.ListViewModel;
 
-import dagger.Component;
+import javax.inject.Singleton;
 
-@Component(modules = {ApiModule.class})
+import dagger.Component;
+@Singleton
+@Component(modules = {RetrofitModule.class,ApiModule.class})
 public interface ApiComponent {
 
     void inject(CountriesService service);
-
+    void inject(ProfileService service);
     void inject(ListViewModel viewModel);
 }
